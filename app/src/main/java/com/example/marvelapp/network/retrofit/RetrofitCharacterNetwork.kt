@@ -8,7 +8,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.Call
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -35,7 +35,7 @@ class RetrofitCharacterNetwork @Inject constructor(
         .callFactory(okHttpCallFactory)
         .addConverterFactory(
             @OptIn(ExperimentalSerializationApi::class)
-            networkJson.asConverterFactory(MediaType.parse("application/json")!!)
+            networkJson.asConverterFactory("application/json".toMediaType())
         )
         .build()
         .create(RetrofitCharacterNetworkApi::class.java)

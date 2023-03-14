@@ -8,7 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.marvelapp.domain.MarvelCharacter
 import com.example.marvelapp.presentation.ui.components.Center
+import com.example.marvelapp.presentation.ui.components.PosterGrid
 
 @Composable
 internal fun HomeRoute(
@@ -33,6 +35,7 @@ internal fun HomeScreen(
         HomeUiState.Failure -> ErrorScreen(modifier)
         is HomeUiState.Success -> SuccessScreen(
             modifier = modifier,
+            marvelCharacters = homeUiState.data,
         )
     }
 }
@@ -41,15 +44,20 @@ internal fun HomeScreen(
 @Composable
 fun SuccessScreen(
     modifier: Modifier = Modifier,
+    marvelCharacters: List<MarvelCharacter>,
 ) {
     Scaffold(topBar = {
-        CenterAlignedTopAppBar(
-            title = {
-                Text("Marvel")
-            },
-        )
+        CenterAlignedTopAppBar(title = { Text("Marvel") })
     }, content = { innerPadding ->
-        EmptyHomeBody(modifier.padding(innerPadding))
+        if (marvelCharacters.isEmpty()) {
+            EmptyHomeBody(modifier.padding(innerPadding))
+        } else {
+            PosterGrid(
+                modifier = modifier.padding(innerPadding),
+                marvelCharacters = marvelCharacters,
+                onCardClick = {},
+            )
+        }
     })
 }
 
