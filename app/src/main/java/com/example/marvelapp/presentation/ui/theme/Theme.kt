@@ -1,4 +1,4 @@
-package com.example.marvelapp.ui.theme
+package com.example.marvelapp.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
