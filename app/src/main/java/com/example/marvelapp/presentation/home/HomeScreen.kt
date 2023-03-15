@@ -16,12 +16,14 @@ import com.example.marvelapp.presentation.ui.components.PosterGrid
 internal fun HomeRoute(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = hiltViewModel(),
+    onCardClick: (Int) -> Unit,
 ) {
     val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
         modifier = modifier,
         homeUiState = homeUiState,
+        onCardClick = onCardClick
     )
 }
 
@@ -29,6 +31,7 @@ internal fun HomeRoute(
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
     homeUiState: HomeUiState,
+    onCardClick: (Int) -> Unit,
 ) {
     when (homeUiState) {
         HomeUiState.Loading -> LoadingScreen(modifier)
@@ -36,6 +39,7 @@ internal fun HomeScreen(
         is HomeUiState.Success -> SuccessScreen(
             modifier = modifier,
             marvelCharacters = homeUiState.data,
+            onCardClick = onCardClick
         )
     }
 }
@@ -45,6 +49,7 @@ internal fun HomeScreen(
 fun SuccessScreen(
     modifier: Modifier = Modifier,
     marvelCharacters: List<MarvelCharacter>,
+    onCardClick: (Int) -> Unit,
 ) {
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = { Text("Marvel") })
@@ -55,7 +60,7 @@ fun SuccessScreen(
             PosterGrid(
                 modifier = modifier.padding(innerPadding),
                 marvelCharacters = marvelCharacters,
-                onCardClick = {},
+                onCardClick = onCardClick,
             )
         }
     })

@@ -8,7 +8,12 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CharactersDao {
-    @Query("SELECT * FROM characters")
+    @Query(
+        value = """
+            SELECT * FROM characters
+            ORDER BY name ASC
+        """
+    )
     fun getCharacterEntities(): Flow<List<MarvelCharacterEntity>>
 
     @Query(

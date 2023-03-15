@@ -12,12 +12,13 @@ import java.time.Instant
 import javax.inject.Inject
 
 data class CharacterQuery(
-    val limit: Int = 10,
+    val limit: Int = 25,
     val ts: Instant = Instant.now()
 )
 
 interface CharacterRepository {
     fun fetchCharacters(query: CharacterQuery): Flow<List<MarvelCharacter>>
+    fun getCharacterById(id: Int): Flow<MarvelCharacter>
 }
 
 @OptIn(FlowPreview::class)
@@ -26,20 +27,23 @@ class CharacterRepositoryImpl @Inject constructor(
     private val dao: CharactersDao,
 ) : CharacterRepository {
     override fun fetchCharacters(query: CharacterQuery): Flow<List<MarvelCharacter>> {
+        val local = flow {
+            val characters = dao.getCharacterEntities().first()
+            emit(characters.map { it.asExternalModel() })
+        }
+
         val remote = flow {
             try {
-                val characters = network.fetchCharacters(query).data.results
+                val characters = network.fetchCharacters(query).data.results.sortedBy { it.name }
                 dao.upsertCharacterItems(characters.map { it.asEntity() })
                 emit(characters.map { it.asExternalModel() })
             } catch (_: Throwable) {
             }
         }
 
-        val local = flow {
-            val characters = dao.getCharacterEntities().first()
-            emit(characters.map { it.asExternalModel() })
-        }
-
-        return flowOf(remote, local).flattenMerge()
+        return flowOf(local, remote).flattenMerge()
     }
+
+    override fun getCharacterById(id: Int): Flow<MarvelCharacter> =
+        dao.getCharacterEntity(id).map { it.asExternalModel() }
 }

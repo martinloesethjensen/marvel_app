@@ -20,7 +20,7 @@ private interface RetrofitCharacterNetworkApi {
         @Query("ts") ts: String,
         @Query("apikey") apikey: String = Secrets.publicKey,
         @Query("hash") hash: String,
-        @Query("limit") limit: Int = 10,
+        @Query("limit") limit: Int,
     ): CharactersResponse
 }
 
@@ -44,6 +44,7 @@ class RetrofitCharacterNetwork @Inject constructor(
         return networkApi.fetchCharacters(
             ts = query.ts.epochSecond.toString(),
             hash = Secrets.generateHash(query.ts),
+            limit = query.limit,
         )
     }
 }

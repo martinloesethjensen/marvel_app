@@ -16,6 +16,7 @@ fun MarvelNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        homeScreen()
+        homeScreen(navController::navigateToCharacterDetails)
+        characterDetailsScreen(navController::popBackStack)
     }
 }

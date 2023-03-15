@@ -35,7 +35,7 @@ fun Center(
 fun PosterGrid(
     modifier: Modifier = Modifier,
     marvelCharacters: List<MarvelCharacter>,
-    onCardClick: () -> Unit,
+    onCardClick: (Int) -> Unit,
 ) {
     LazyVerticalStaggeredGrid(
         modifier = modifier,
@@ -45,7 +45,7 @@ fun PosterGrid(
         items(marvelCharacters) { marvelCharacter ->
             Box(modifier = Modifier.padding(8.dp)) {
                 Card(
-                    onClick = { onCardClick() },
+                    onClick = { onCardClick(marvelCharacter.id) },
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Column {

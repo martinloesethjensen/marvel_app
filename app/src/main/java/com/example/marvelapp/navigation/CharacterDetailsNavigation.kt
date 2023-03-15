@@ -1,29 +1,27 @@
 package com.example.marvelapp.navigation
 
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
+import androidx.navigation.*
 import androidx.navigation.compose.composable
-import com.example.marvelapp.domain.models.MarvelCharacter
 import com.example.marvelapp.presentation.character_details.CharacterDetailsRoute
 
-const val characterDetailsNavigationRoute = "character/details/{character}"
+const val characterDetailsNavigationRoute = "character/details"
 
 fun NavController.navigateToCharacterDetails(
-    marvelCharacter: MarvelCharacter,
-    navOptions: NavOptions? = null
+    id: Int,
+    navOptions: NavOptions? = null,
 ) {
-    //this.currentBackStackEntry?.arguments?.putParcelable("character", marvelCharacter)
-    this.navigate(characterDetailsNavigationRoute, navOptions)
+    this.navigate("$characterDetailsNavigationRoute/$id", navOptions)
 }
 
 fun NavGraphBuilder.characterDetailsScreen(
     onBackClick: () -> Unit,
 ) {
-    composable(route = characterDetailsNavigationRoute) {
+    composable(
+        route = "$characterDetailsNavigationRoute/{id}",
+        arguments = listOf(navArgument("id") { type = NavType.IntType })
+    ) {
         CharacterDetailsRoute(
             onBackClick,
-            //it.arguments?.getParcelable<MarvelCharacter>("character")
         )
     }
 }
