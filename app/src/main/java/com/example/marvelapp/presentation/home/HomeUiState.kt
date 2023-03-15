@@ -1,6 +1,6 @@
 package com.example.marvelapp.presentation.home
 
-import com.example.marvelapp.domain.MarvelCharacter
+import com.example.marvelapp.domain.models.MarvelCharacter
 
 sealed interface HomeUiState {
     object Loading : HomeUiState

@@ -1,7 +1,7 @@
 package com.example.marvelapp.data.di
 
 import com.example.marvelapp.data.repositories.character.CharacterRepository
-import com.example.marvelapp.data.repositories.character.RemoteCharacterRepository
+import com.example.marvelapp.data.repositories.character.CharacterRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,6 +12,6 @@ import dagger.hilt.components.SingletonComponent
 interface DataModule {
     @Binds
     fun bindsCharacterRepository(
-        characterRepository: RemoteCharacterRepository,
+        characterRepository: CharacterRepositoryImpl,
     ): CharacterRepository
 }

@@ -1,4 +1,4 @@
-package com.example.marvelapp.domain
+package com.example.marvelapp.domain.models
 
 import com.example.marvelapp.data.models.Thumbnail
 

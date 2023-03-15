@@ -16,7 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
-import com.example.marvelapp.domain.MarvelCharacter
+import com.example.marvelapp.domain.models.MarvelCharacter
 
 @Composable
 fun Center(

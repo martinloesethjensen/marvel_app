@@ -1,6 +1,7 @@
 package com.example.marvelapp.data.models
 
-import com.example.marvelapp.domain.MarvelCharacter
+import com.example.marvelapp.domain.models.MarvelCharacter
+import com.example.watchedapp.database.models.MarvelCharacterEntity
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -29,5 +30,9 @@ data class CharacterResponse(
 )
 
 fun CharacterResponse.asExternalModel() = MarvelCharacter(
+    id, name, description, thumbnail
+)
+
+fun CharacterResponse.asEntity() = MarvelCharacterEntity(
     id, name, description, thumbnail
 )
