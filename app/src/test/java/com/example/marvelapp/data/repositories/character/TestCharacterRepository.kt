@@ -12,15 +12,13 @@ class TestCharacterRepository : CharacterRepository {
     private val characterResourceFlow: MutableSharedFlow<List<MarvelCharacter>> =
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    override fun fetchCharacters(query: CharacterQuery): Flow<List<MarvelCharacter>> {
-        TODO("Not yet implemented")
-    }
+    override fun fetchCharacters(query: CharacterQuery): Flow<List<MarvelCharacter>> =
+        characterResourceFlow.mapLatest { it.take(query.limit) }
 
-    override fun getCharacterById(id: Int): Flow<MarvelCharacter> {
-        return characterResourceFlow.mapLatest { characters ->
+    override fun getCharacterById(id: Int): Flow<MarvelCharacter> =
+        characterResourceFlow.mapLatest { characters ->
             characters.find { it.id == id } ?: MarvelCharacter.empty
         }
-    }
 
     fun setCharactersResources(items: List<MarvelCharacter>) {
         characterResourceFlow.tryEmit(items)
