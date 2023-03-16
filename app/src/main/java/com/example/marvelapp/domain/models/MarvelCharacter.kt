@@ -7,6 +7,10 @@ data class MarvelCharacter(
     val name: String = "",
     val description: String = "",
     val thumbnail: Thumbnail? = null
-)
+) {
+    companion object {
+        val empty = MarvelCharacter()
+    }
+}
 
 
